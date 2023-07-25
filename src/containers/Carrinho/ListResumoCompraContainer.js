@@ -1,27 +1,33 @@
-import ListGroup from 'react-bootstrap/ListGroup';
+import { ListGroup } from "../../components/ListGroup/ListGroup"
+import ListGroupBS from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
+import { useAppContext } from "../../store/AppContext";
 
-export const ListPrecoTotal = () => {
+
+export const ListResumoCompraContainer = () => {
+    const {state} = useAppContext();
+
+    const calculaSubTotal = () => {
+        var subTotal = 0;
+
+        state.cart.map((item, index)=> {
+            subTotal += Number.parseFloat(item.subTotal);
+        })
+
+        return subTotal.toFixed(2);
+    }
 
     return (
-        <ListGroup as="ol">
-            <ListGroup.Item
-                as="li"
-                className="d-flex justify-content-between align-items-start"
-            >
-                <div className="ms-2 me-auto">
-                    <div className="fw-bold">Resumo da Compra</div>
-                </div>
-            </ListGroup.Item>
-            <ListGroup.Item
+        <ListGroup title='Resumo da Compra'>
+            <ListGroupBS.Item
                 as="li"
                 className=""
             >
                 <div className="d-flex justify-content-between align-items-start mt-3">
                     <div className="ms-2">
-                        Produtos (2)
+                        Produtos ({state.cart.length})
                     </div>
-                    <span>R$ 10,00</span>
+                    <span>R$ {calculaSubTotal()}</span>
                 </div>
 
                 <div className="d-flex justify-content-between align-items-start mt-1">
@@ -39,7 +45,7 @@ export const ListPrecoTotal = () => {
                 </div>
 
                 <Button variant="primary" className='mt-3 mb-3 p-3 w-100 fw-bold'>Finalizar Compras</Button>
-            </ListGroup.Item>
+            </ListGroupBS.Item>
         </ListGroup>
     )
 }

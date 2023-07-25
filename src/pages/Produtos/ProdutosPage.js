@@ -1,8 +1,10 @@
 import { Container } from "react-bootstrap"
 import { ListCard } from "../../components/Card/ListCard"
+import { saveProductInCart } from "../../services/pinService"
 
 
 export const ProdutosPage = () => {
+    //saveProductInCart('123', 23.89);
 
     return (
         <Container fluid>
