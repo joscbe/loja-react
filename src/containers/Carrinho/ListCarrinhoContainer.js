@@ -4,7 +4,8 @@ import { ListGroup } from "../../components/ListGroup/ListGroup";
 import Pagination from 'react-bootstrap/Pagination';
 import ListGroupBS from 'react-bootstrap/ListGroup';
 import { useEffect } from "react";
-import { fetchCart, updateQuantSubItem, updateQuantUpItem } from "../../store/actions";
+import { fetchCart, removeItemInCartAction, updateQuantSubItem, updateQuantUpItem } from "../../store/actions";
+
 
 
 export const ListCarrinhoContainer = () => {
@@ -14,12 +15,26 @@ export const ListCarrinhoContainer = () => {
         fetchCart(dispatch);
     }, [])
 
+    const handleTotalFrete = () => {
+        var totalFrete = 0;
+
+        state.cart.map(item => {
+            totalFrete += item.frete;
+        });
+
+        return Number.parseFloat(totalFrete).toFixed(2);
+    }
+
     const handleQuantUp = (itemId) => {
         updateQuantUpItem(itemId, dispatch);
     }
 
     const handleQuantSub = (itemId) => {
         updateQuantSubItem(itemId, dispatch);
+    }
+
+    const handleRemoveItem = async (itemId) => {
+        await removeItemInCartAction(itemId, dispatch);
     }
 
     return(
@@ -33,17 +48,18 @@ export const ListCarrinhoContainer = () => {
                 <div className="ms-2">
                     <Row className='mt-3 mb-3'>
                         <Col>
-                            <img src='https://http2.mlstatic.com/kit-04-shorts-tactel--bolso-masculino-coloridos-mauricinho-S_665159-MLB46890614418_072021-R.jpg' />
+                            <img width={75} src={item.product.image} />
                         </Col>
 
                         <Col className='col-7'>
                             <div className='d-flex flex-column'>
-                                <strong>Kit 04 Shorts Tactel Bolso Masculino</strong>
-                                <small>Cor: Vermelha, Tamanho: M</small>
+                                <strong>{String(item.product.titulo).toUpperCase()}</strong>
+                                <small>{item.product.descricao}</small>
+                                <a className="link-offset-2 link-underline link-underline-opacity-0" onClick={() => handleRemoveItem(item.id)} href="#">Excluir</a>
                             </div>
                         </Col>
 
-                        <Col className='col-2 text-center'>
+                        <Col className='col-auto text-center'>
                             <Pagination size='sm'>
                                 <Pagination.Item onClick={() => handleQuantSub(item.id)}>-</Pagination.Item>
                                 <Pagination.Item disabled>{item.quant}</Pagination.Item>
@@ -66,7 +82,7 @@ export const ListCarrinhoContainer = () => {
                 <div className="ms-2 me-auto">
                     Frete
                 </div>
-                R$ 12,60
+                R$ {handleTotalFrete()}
             </ListGroupBS.Item>
         </ListGroup>
     )

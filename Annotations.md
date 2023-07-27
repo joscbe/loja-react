@@ -4,8 +4,14 @@
 [
     {
         id: '',
-        productId: '',
-        valueUnit: '',
+        product: {
+            id: '',
+            imagem: '',
+            titulo: '',
+            descricao: '',
+            valor: '',
+            frete: ''
+        },
         quant: '',
         subTotal: ''
     }
@@ -19,9 +25,11 @@
 [
     {
         id: '',
-        title: '',
+        imagem, '',
+        titulo: '',
         descri: '',
         valor: '',
+        frete: ''
     }
 ]
 ```

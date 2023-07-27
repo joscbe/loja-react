@@ -11,7 +11,8 @@ import { AppContext } from "./store/AppContext";
 const initialState = {
   cart: [],
   activeProductId: null,
-  type: null
+  type: null,
+  products: []
 }
 
 function App() {
